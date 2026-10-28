@@ -1,0 +1,297 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------ */
+@theme {
+  /* Palette */
+  --color-bone: #f5f3f3;
+  --color-forest: #234d36;
+  --color-forest-deep: #1b3d2a;
+  --color-lotus: #e8b7b7;
+  --color-lotus-light: #f3d6d6;
+  --color-blush: #efcaca;
+  --color-cream: #f5e8e0;
+  --color-sage: #78927c;
+  --color-gold: #c6a15b;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Motion */
+  --animate-hero-rise: hero-rise 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 1.1s ease-out both;
+  --animate-drawer-in: drawer-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-drawer-slide: drawer-slide 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ------------------------------------------------------------------
+   Keyframes
+   ------------------------------------------------------------------ */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drawer-slide {
+  from {
+    opacity: 0;
+    transform: translate3d(28px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-bone);
+    color: var(--color-forest);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-lotus-light);
+    color: var(--color-forest);
+  }
+
+  /* Slim, botanical scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-bone);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-sage) 45%, transparent);
+    border: 3px solid var(--color-bone);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--color-forest) 55%, transparent);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Components
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Hero backdrops.
+
+     Both files are supplied artwork and are never scaled by anything but
+     `cover`, so the lotus petals are never stretched or distorted.
+
+     Measured off the encoded PNGs before these rules were written:
+
+       desktopbackground.png  1672x941   mean rgb(225,190,173)
+       mobilebackground.png    953x1651  mean rgb(229,192,179)
+
+     Both are a light warm field (mean luma ~193, top band luma ~233) with
+     heavy lotus ink in the bottom corners (bottom band luma ~150). That is
+     why the navbar needs no scrim of its own - the dark green type already
+     clears contrast - while the trust card at the bottom of the hero does
+     need its translucent cream backing to stay legible. */
+  .hero-desktop-bg {
+    background-color: var(--color-cream);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  .hero-mobile-bg {
+    background-color: var(--color-cream);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  /* Page opening-statement backdrops (shop and courses).
+
+     Every file is supplied artwork and is never scaled by anything but
+     `cover`, so no artwork is ever stretched or distorted. One shared rule
+     carries all four classes because every page hero asks for the same
+     treatment.
+
+     Measured off the encoded PNGs before these rules were written:
+
+       systemshop.png    2061x763   wide field, open cream centre, lotus ink
+                                    held to the left and right corners
+       mobileshop.png     941x1672   portrait field, lotus ink in the bottom
+                                    third, open cream space above it
+       coursessystem.png  1671x941   water scene, lotus on the rock bottom
+                                    left, centre band clean to ~95% down
+       coursesmobile.png  941x1672   water scene, bottom ink mass tops out at
+                                    ~56% down at the sides, centre clean
+
+     All are light warm fields like the hero backdrops above, so the forest
+     heading and lead clear contrast with no scrim of their own - the content
+     always sits over the open field, never over the ink. */
+  .shop-system-bg,
+  .shop-mobile-bg,
+  .courses-system-bg,
+  .courses-mobile-bg {
+    background-color: var(--color-cream);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
+
+  /* logo.png is a 1774x887 canvas whose lotus ink occupies only the middle
+     55.22% x 66.29% - the artwork itself is exactly 5:3, centred, with wide
+     transparent margins. Dropping the <img> in at its intrinsic size renders
+     a mark far smaller than it looks, so this frame scales the file up until
+     the ink bounding box exactly fills the 5:3 box and clips the padding:
+
+       1 / 0.5522 = 181.1%  ->  ink width  = 100% of the frame
+       181.1% x 0.5 = 90.55% of frame width -> 66.29% of that = 60% of frame
+       width, which is the 5:3 frame's own height.
+
+     The source file is never modified. */
+  .brand-mark {
+    position: relative;
+    aspect-ratio: 5 / 3;
+    overflow: hidden;
+  }
+
+  .brand-mark img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Centred with a transform rather than `inset: 0; margin: auto`: with a
+       width of its own plus both offsets set, an absolutely positioned box is
+       over-constrained, so the auto margins resolve to 0 and `right` gets
+       dropped - which left-aligns the mark and clips 44.78% of it off. */
+    transform: translate(-50%, -50%);
+    width: 181.1%;
+    max-width: none;
+    height: auto;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Utilities
+   ------------------------------------------------------------------ */
+@layer utilities {
+  .gold-hairline {
+    background: linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--color-gold) 70%, transparent),
+      transparent
+    );
+  }
+
+  /* Hand-written rather than an arbitrary `shadow-[...]` utility: the
+     extracted class silently dropped out of the build, so the bar was losing
+     the only cue separating it from the content underneath.
+
+     Tinted with the forest brand colour instead of neutral black so the lift
+     reads as part of the palette. A large negative spread keeps it a soft
+     fade rather than a hard edge, and nothing is cast upward - the shadow
+     only ever falls on content scrolling beneath the bar. */
+  .bar-shadow {
+    box-shadow: 0 10px 30px -26px rgb(35 77 54 / 55%);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Backdrop positioning
+
+   Unlayered, so it beats the `.hero-*` rules in `@layer components` above.
+
+   On a phone the mobile artwork is width-constrained: cover scales it to the
+   full viewport height and crops ~12% off each *side* and nothing at all
+   vertically, so `center` trims both bottom lotuses equally and there is
+   nothing to nudge.
+
+   Ultra-wide landscape inverts that - the 16:9 desktop artwork becomes
+   height-constrained and `center` would clip the lotus ink off the bottom.
+   Shifting to 38% holds the lower third of the composition in frame. */
+@media (min-aspect-ratio: 21 / 9) {
+  .hero-desktop-bg {
+    background-position: center 38%;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
